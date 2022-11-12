@@ -1,0 +1,8 @@
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a book service api.
+  title: Swagger for book api
+  version: "1.0"
+paths: {}
+swagger: "2.0"
