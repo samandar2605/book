@@ -23,7 +23,7 @@ func NewServer(data repo.RepoBook) *gin.Engine {
 
 	r.GET("/books/:id", h.GetBook)
 	r.GET("/books", h.GetBookAll)
-	// r.POST("/books", h.CreateBook)
+	r.POST("/books", h.CreateBook)
 	r.DELETE("/books/:id", h.DeleteBook)
 	r.PUT("/books/:id", h.UpdateBook)
 

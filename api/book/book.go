@@ -15,38 +15,38 @@ type Handler struct {
 	Storage repo.RepoBook
 }
 
-// // @Summary create
-// // @Description this functions
-// // @Tags Book
-// // @Accept json
-// // @Produce json
-// // @Param 	book body models.Book true "Book"
-// // @Success 200 {object} models.Book
-// // @Failure 400  {object} models.ResponseError
-// // @Router /books [post]
-// func (h *Handler) CreateBook(ctx *gin.Context) {
-// 	var b models.Book
-// 	err := ctx.ShouldBindJSON(&b)
-// 	fmt.Println(b)
-// 	if err != nil {
-// 		ctx.JSON(http.StatusInternalServerError, gin.H{
-// 			"message": err.Error(),
-// 		})
-// 		return
-// 	}
+// @Summary create
+// @Description this functions
+// @Tags Book
+// @Accept json
+// @Produce json
+// @Param 	book body models.Book true "Book"
+// @Success 200 {object} models.Book
+// @Failure 400  {object} models.ResponseError
+// @Router /books [post]
+func (h *Handler) CreateBook(ctx *gin.Context) {
+	var b models.Book
+	err := ctx.ShouldBindJSON(&b)
+	fmt.Println(b)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
 
-// 	book, err := h.Storage.CreateBook(&b)
-// 	if err != nil {
-// 		ctx.JSON(http.StatusInternalServerError, gin.H{
-// 			"message": "failed to create book",
-// 		})
-// 		return
-// 	}
+	book, err := h.Storage.CreateBook(&b)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to create book",
+		})
+		return
+	}
 
-// 	ctx.JSON(http.StatusOK, book)
-// }
+	ctx.JSON(http.StatusOK, book)
+}
 
-// @Summary 	Get_book_by_id
+// @Summary 	GetId
 // @Description Get book by id
 // @Tags 		Book
 // @Accept 		json
@@ -54,8 +54,7 @@ type Handler struct {
 // @Param 		id path int true "ID"
 // @Success 	200 {object} models.Book
 // @Failure 	400 {object} models.ResponseError
-// @Router 		/Book/{id} [get]
-
+// @Router 		/books/{id} [get]
 func (h *Handler) GetBook(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -89,7 +88,6 @@ func (h *Handler) GetBook(ctx *gin.Context) {
 // @Success 200 "successfully"
 // @Failure 500 {object} models.ResponseError
 // @Router /books [get]
-
 func (h *Handler) GetBookAll(ctx *gin.Context) {
 	queryParams, err := validateGetbooksQuery(ctx)
 	if err != nil {
@@ -148,7 +146,6 @@ func validateGetbooksQuery(ctx *gin.Context) (postgres.GetBooksQueryParam, error
 // @Success 200 {object} models.Book
 // @Failure 500 {object} models.ResponseError
 // @Router /books/{id} [put]
-
 func (h *Handler) UpdateBook(ctx *gin.Context) {
 	var b models.Book
 
@@ -188,7 +185,6 @@ func (h *Handler) UpdateBook(ctx *gin.Context) {
 // @Success 200 {object} models.ResponseOK
 // @Failure 500 {object} models.ResponseError
 // @Router /books/{id} [delete]
-
 func (h *Handler) DeleteBook(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {

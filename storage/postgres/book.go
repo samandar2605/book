@@ -22,17 +22,6 @@ type GetBooksResult struct {
 
 func (b *DBManager) CreateBook(book *models.Book) (models.Book, error) {
 	var kitob models.Book
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("---------------------------------------------")
-	fmt.Println()
-	fmt.Println()
-	fmt.Println(book)
-	fmt.Println()
-	fmt.Println()
-	fmt.Println("____________________________________________")
-	fmt.Println("============================================")
-	fmt.Println("++++++++++++++++++++++++++++++++++++++++++++")
 
 	tx, err := b.db.Begin()
 	if err != nil {

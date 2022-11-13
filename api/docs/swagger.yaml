@@ -1,4 +1,183 @@
+definitions:
+  models.Book:
+    properties:
+      amount:
+        type: integer
+      author_name:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  models.CreateBookRequest:
+    properties:
+      amount:
+        type: integer
+      author:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  models.ResponseError:
+    properties:
+      message:
+        type: string
+    type: object
+  models.ResponseOK:
+    properties:
+      message:
+        type: string
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /books:
+    get:
+      consumes:
+      - application/json
+      description: Get books
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: Page
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Author
+        in: query
+        name: author
+        type: string
+      - description: Title
+        in: query
+        name: title
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Get books
+      tags:
+      - Book
+    post:
+      consumes:
+      - application/json
+      description: this functions
+      parameters:
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.Book'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: create
+      tags:
+      - Book
+  /books/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a book
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseOK'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Delete a book
+      tags:
+      - Book
+    get:
+      consumes:
+      - application/json
+      description: Get book by id
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: GetId
+      tags:
+      - Book
+    put:
+      consumes:
+      - application/json
+      description: Update a books
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Book
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateBookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ResponseError'
+      summary: Update a book
+      tags:
+      - Book
 swagger: "2.0"
