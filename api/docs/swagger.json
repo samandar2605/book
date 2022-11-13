@@ -1,11 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a book service api.",
-        "title": "Swagger for book api",
-        "contact": {},
-        "version": "1.0"
+        "contact": {}
     },
-    "host": "localhost:8080",
     "paths": {}
 }

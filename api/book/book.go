@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	_ "net/http"
 
-	models "github.com/book/models"
+	"github.com/book/models"
 	"github.com/book/storage/postgres"
 	"github.com/book/storage/repo"
 	"github.com/gin-gonic/gin"
@@ -16,47 +15,46 @@ type Handler struct {
 	Storage repo.RepoBook
 }
 
-// @Summary Create a books
-// @Description Create a books
-// @Tags books
-// @Accept json
-// @Produce json
-// @Param book body models.CreateBookRequest true "Book"
-// @Success 200 {object} models.Book
-// @Failure 500 {object} models.Book
-// @Router /books [post]
+// // @Summary create
+// // @Description this functions
+// // @Tags Book
+// // @Accept json
+// // @Produce json
+// // @Param 	book body models.Book true "Book"
+// // @Success 200 {object} models.Book
+// // @Failure 400  {object} models.ResponseError
+// // @Router /books [post]
+// func (h *Handler) CreateBook(ctx *gin.Context) {
+// 	var b models.Book
+// 	err := ctx.ShouldBindJSON(&b)
+// 	fmt.Println(b)
+// 	if err != nil {
+// 		ctx.JSON(http.StatusInternalServerError, gin.H{
+// 			"message": err.Error(),
+// 		})
+// 		return
+// 	}
 
-func (h *Handler) CreateBook(ctx *gin.Context) {
-	var b models.Book
-	err := ctx.ShouldBindJSON(&b)
-	fmt.Println(b)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": err.Error(),
-		})
-		return
-	}
+// 	book, err := h.Storage.CreateBook(&b)
+// 	if err != nil {
+// 		ctx.JSON(http.StatusInternalServerError, gin.H{
+// 			"message": "failed to create book",
+// 		})
+// 		return
+// 	}
 
-	book, err := h.Storage.CreateBook(&b)
-	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "failed to create book",
-		})
-		return
-	}
+// 	ctx.JSON(http.StatusOK, book)
+// }
 
-	ctx.JSON(http.StatusOK, book)
-}
-
-// @Summary 	Get book by id
+// @Summary 	Get_book_by_id
 // @Description Get book by id
-// @Tags 		book
+// @Tags 		Book
 // @Accept 		json
 // @Produce 	json
 // @Param 		id path int true "ID"
 // @Success 	200 {object} models.Book
-// @Failure 	500 {object} models.ResponseError
-// @Router 		/github.com/book/{id} [get]
+// @Failure 	400 {object} models.ResponseError
+// @Router 		/Book/{id} [get]
 
 func (h *Handler) GetBook(ctx *gin.Context) {
 	id, err := strconv.Atoi(ctx.Param("id"))
@@ -81,14 +79,14 @@ func (h *Handler) GetBook(ctx *gin.Context) {
 
 // @Summary Get books
 // @Description Get books
-// @Tags book
+// @Tags Book
 // @Accept json
 // @Produce json
 // @Param limit query int true "Limit"
 // @Param page query int true "Page"
 // @Param author query string false "Author"
 // @Param title query string false "Title"
-// @Success 200 {object} storage.postgres.GetbooksResult
+// @Success 200 "successfully"
 // @Failure 500 {object} models.ResponseError
 // @Router /books [get]
 
@@ -141,8 +139,8 @@ func validateGetbooksQuery(ctx *gin.Context) (postgres.GetBooksQueryParam, error
 }
 
 // @Summary Update a book
-// @Description Update a book
-// @Tags book
+// @Description Update a books
+// @Tags Book
 // @Accept json
 // @Produce json
 // @Param id path int true "ID"
@@ -183,7 +181,7 @@ func (h *Handler) UpdateBook(ctx *gin.Context) {
 
 // @Summary Delete a book
 // @Description Delete a book
-// @Tags book
+// @Tags Book
 // @Accept json
 // @Produce json
 // @Param id path int true "ID"

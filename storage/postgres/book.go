@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
+	"log"
 
 	models "github.com/book/models"
 )
@@ -15,15 +16,27 @@ type GetBooksQueryParam struct {
 }
 
 type GetBooksResult struct {
-	Books []*models.Book `json:"blogs"`
+	Books []models.Book  `json:"blogs"`
 	Count int            `json:"count"`
 }
 
 func (b *DBManager) CreateBook(book *models.Book) (models.Book, error) {
 	var kitob models.Book
+	fmt.Println()
+	fmt.Println()
+	fmt.Println("---------------------------------------------")
+	fmt.Println()
+	fmt.Println()
+	fmt.Println(book)
+	fmt.Println()
+	fmt.Println()
+	fmt.Println("____________________________________________")
+	fmt.Println("============================================")
+	fmt.Println("++++++++++++++++++++++++++++++++++++++++++++")
 
 	tx, err := b.db.Begin()
 	if err != nil {
+		fmt.Printf("Error at createing transaction %v",err)
 		return models.Book{}, err
 	}
 
@@ -52,13 +65,14 @@ func (b *DBManager) CreateBook(book *models.Book) (models.Book, error) {
 		&kitob.CreatedAt,
 	); err != nil {
 		tx.Rollback()
+		log.Fatalf("error scan'da %v",err.Error())
 		return models.Book{}, err
 	}
 	tx.Commit()
 	return kitob, nil
 }
 
-func (b *DBManager) GetBookById(id int) (models.Book, error) {
+func (b DBManager) GetBookById(id int) (models.Book, error) {
 	var kitob models.Book
 	query := `
 		SELECT 
@@ -90,9 +104,9 @@ func (b *DBManager) GetBookById(id int) (models.Book, error) {
 	return kitob, nil
 }
 
-func (b *DBManager) GetBookAll(params GetBooksQueryParam) (GetBooksResult, error) {
+func (b DBManager) GetBookAll(params GetBooksQueryParam) (GetBooksResult, error) {
 	result := GetBooksResult{
-		Books: make([]*models.Book, 0),
+		Books: make([]models.Book, 0),
 	}
 
 	offset := (params.Page - 1) * params.Limit
@@ -139,14 +153,14 @@ func (b *DBManager) GetBookAll(params GetBooksQueryParam) (GetBooksResult, error
 		); err != nil {
 			return GetBooksResult{}, err
 		}
-		result.Books = append(result.Books, &kitob)
+		result.Books = append(result.Books, kitob)
 
 	}
 
 	return result, nil
 }
 
-func (b *DBManager) UpdateBook(book models.Book) (models.Book, error) {
+func (b DBManager) UpdateBook(book models.Book) (models.Book, error) {
 	var kitob models.Book
 	tx, err := b.db.Begin()
 	if err != nil {
@@ -186,7 +200,7 @@ func (b *DBManager) UpdateBook(book models.Book) (models.Book, error) {
 	return kitob, nil
 }
 
-func (b *DBManager) DeleteBook(id int) error {
+func (b DBManager) DeleteBook(id int) error {
 	tx, err := b.db.Begin()
 	if err != nil {
 		return err
