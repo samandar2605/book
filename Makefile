@@ -2,4 +2,4 @@ swag:
 	swag init -g ./api/server.go -o api/docs 
 	
 run:
-	go run cmd/main.go
+	go run "/home/samandar/go/src/github.com/book/cmd/main.go"

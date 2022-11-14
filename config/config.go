@@ -1,6 +1,9 @@
 package config
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
@@ -19,11 +22,14 @@ type PostgresConfig struct {
 }
 
 func Load(path string) Config {
-	godotenv.Load(path + ".env") // load .env file if it exists
+	godotenv.Load(".env") // load .env file if it exists
 
+	fmt.Println(path)
 	conf := viper.New()
 	conf.AutomaticEnv()
 
+	s := os.Getenv("HTTP_PORT")
+	fmt.Println("asdfadf", s)
 	cfg := Config{
 		HttpPort: conf.GetString("HTTP_PORT"),
 		Postgres: PostgresConfig{
