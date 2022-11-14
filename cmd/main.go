@@ -13,16 +13,26 @@ import (
 )
 
 func main() {
-	connSqlx, err := sqlx.Connect("postgres", config.ConnStr())
+	cfg := config.Load("./..")
+	connStr := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cfg.Postgres.Host,
+		cfg.Postgres.Port,
+		cfg.Postgres.User,
+		cfg.Postgres.Password,
+		cfg.Postgres.Database,
+	)
+	db, err := sqlx.Open("postgres", connStr)
 	if err != nil {
-		fmt.Printf("sqlx ulanishda xatolik(main func'da \n%v)", err)
-		return
+		log.Fatalf("failed to open connection: %v", err)
 	}
-	db := postgres.NewBookRepo(connSqlx)
-	server := api.NewServer(db)
+
+	storage := postgres.NewBookRepo(db)
+	server := api.NewServer(storage)
+	fmt.Println(cfg.HttpPort, "--------------------------------------------")
 	err = server.Run(":8000")
+	
 	if err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
-
 }
