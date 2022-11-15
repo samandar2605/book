@@ -235,7 +235,7 @@ const docTemplate = `{
                 "amount": {
                     "type": "integer"
                 },
-                "author_name": {
+                "author": {
                     "type": "string"
                 },
                 "created_at": {

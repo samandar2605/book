@@ -16,7 +16,7 @@ func CreateBook() *models.Book {
 	var book models.Book
 
 	book.Title=faker.Name()
-	book.AuthorName=faker.Name()
+	book.Author=faker.Name()
 	book.Price=12345
 	book.Amount=1
 	var err error

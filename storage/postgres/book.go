@@ -41,14 +41,14 @@ func (b *DBManager) CreateBook(book *models.Book) (models.Book, error) {
 	result := tx.QueryRow(
 		query,
 		book.Title,
-		book.AuthorName,
+		book.Author,
 		book.Price,
 		book.Amount,
 	)
 	if err = result.Scan(
 		&kitob.Id,
 		&kitob.Title,
-		&kitob.AuthorName,
+		&kitob.Author,
 		&kitob.Price,
 		&kitob.Amount,
 		&kitob.CreatedAt,
@@ -82,7 +82,7 @@ func (b DBManager) GetBookById(id int) (models.Book, error) {
 	if err := result.Scan(
 		&kitob.Id,
 		&kitob.Title,
-		&kitob.AuthorName,
+		&kitob.Author,
 		&kitob.Price,
 		&kitob.Amount,
 		&kitob.CreatedAt,
@@ -135,7 +135,7 @@ func (b DBManager) GetBookAll(params GetBooksQueryParam) (GetBooksResult, error)
 		if err := rows.Scan(
 			&kitob.Id,
 			&kitob.Title,
-			&kitob.AuthorName,
+			&kitob.Author,
 			&kitob.Price,
 			&kitob.Amount,
 			&kitob.CreatedAt,
@@ -167,7 +167,7 @@ func (b DBManager) UpdateBook(book models.Book) (models.Book, error) {
 	result := tx.QueryRow(
 		query,
 		book.Title,
-		book.AuthorName,
+		book.Author,
 		book.Price,
 		book.Amount,
 		book.Id,
@@ -176,7 +176,7 @@ func (b DBManager) UpdateBook(book models.Book) (models.Book, error) {
 	if err = result.Scan(
 		&kitob.Id,
 		&kitob.Title,
-		&kitob.AuthorName,
+		&kitob.Author,
 		&kitob.Price,
 		&kitob.Amount,
 		&kitob.CreatedAt,

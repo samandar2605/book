@@ -9,18 +9,12 @@ import (
 	"github.com/book/config"
 	"github.com/book/storage/postgres"
 	"github.com/jmoiron/sqlx"
-	
+
 	_ "github.com/lib/pq"
 )
 
 func main() {
 	cfg := config.Load("~/go/src/github.com/book/.env")
-	fmt.Println("--------------",cfg.HttpPort,"------------")
-	fmt.Println("--------------",cfg.Postgres.Host,"------------")
-	fmt.Println("--------------",cfg.Postgres.Port,"------------")
-	fmt.Println("--------------",cfg.Postgres.User,"------------")
-	fmt.Println("--------------",cfg.Postgres.Password,"------------")
-	fmt.Println("--------------",cfg.Postgres.Database,"------------")
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		cfg.Postgres.Host,
@@ -36,8 +30,8 @@ func main() {
 
 	storage := postgres.NewBookRepo(db)
 	server := api.NewServer(storage)
-	fmt.Println("--------------",cfg.HttpPort)
-	err = server.Run(":"+cfg.HttpPort)
+	fmt.Println("--------------", cfg.HttpPort)
+	err = server.Run(":" + cfg.HttpPort)
 	if err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
